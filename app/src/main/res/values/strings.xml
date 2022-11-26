@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SmsSenderApplication</string>
+    <string name="permissions_needed">برای کارکرد خوب برنامه دسترسی هارا به برنامه بدهید</string>
 </resources>

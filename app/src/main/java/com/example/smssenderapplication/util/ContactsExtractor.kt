@@ -1,5 +1,6 @@
 package com.example.smssenderapplication.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
@@ -21,40 +22,20 @@ object ContactsExtractor {
         cursor?.close()
     }
 
+    @SuppressLint("Range")
     private fun extractContactPhoneNumber(cursor: Cursor?, context: Context) {
         cursor?.let { cursorHandler ->
             if (cursorHandler.count > 0) {
                 while (cursorHandler.moveToNext()) {
                     val contactId = cursor.getString(
-                        cursor.getColumnIndex(ContactsContract.Contacts._ID).toInt()
+                        cursor.getColumnIndex(ContactsContract.Contacts._ID)
                     )
                     val contactName = cursor.getString(
-                        cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME).toInt()
+                        cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
                     )
-                    val hasPhoneNumber =
-                        (cursorHandler.getString((cursorHandler.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)).toInt())).toInt()
-                    // this means that this contact has at least one phoneNumber
-                    if (hasPhoneNumber > 0) {
-                        val phoneNumberCursor = context.contentResolver.query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            "${ContactsContract.CommonDataKinds.Phone.CONTACT_ID}=?",
-                            arrayOf(contactId),
-                            null
-                        )
-                        phoneNumberCursor?.let {
-                            if (it.count > 0) {
-                                while (it.moveToNext()) {
-                                    val phoneNumberValue = it.getString(
-                                        it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
-                                            .toInt()
-                                    )
-                                    this.contactPhoneNumbers[contactName] = phoneNumberValue
-                                }
-                            }
-                        }
-                        phoneNumberCursor?.close()
-                    }
+                    val phoneNumber =
+                        (cursorHandler.getString((cursorHandler.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))))
+                    this.contactPhoneNumbers[contactName] = phoneNumber
                 }
             }
         }
