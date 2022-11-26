@@ -18,12 +18,16 @@ object ContactsExtractor {
             null,
             null
         )
-        this.extractContactPhoneNumber(cursor, context)
+        this.extractContactPhoneNumber(namesShouldContain, cursor, context)
         cursor?.close()
     }
 
     @SuppressLint("Range")
-    private fun extractContactPhoneNumber(cursor: Cursor?, context: Context) {
+    private fun extractContactPhoneNumber(
+        namesShouldContain: String,
+        cursor: Cursor?,
+        context: Context
+    ) {
         cursor?.let { cursorHandler ->
             if (cursorHandler.count > 0) {
                 while (cursorHandler.moveToNext()) {
@@ -33,9 +37,11 @@ object ContactsExtractor {
                     val contactName = cursor.getString(
                         cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
                     )
-                    val phoneNumber =
-                        (cursorHandler.getString((cursorHandler.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))))
-                    this.contactPhoneNumbers[contactName] = phoneNumber
+                    if (contactName.contains(namesShouldContain)) {
+                        val phoneNumber =
+                            (cursorHandler.getString((cursorHandler.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))))
+                        this.contactPhoneNumbers[contactName] = phoneNumber
+                    }
                 }
             }
         }
