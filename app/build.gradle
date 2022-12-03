@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -56,4 +57,7 @@ dependencies {
 
     // Koin
     implementation "io.insert-koin:koin-android:$koin_android_version"
+
+    // For android 12
+    implementation 'androidx.work:work-runtime:2.8.0-beta02'
 }

@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">SmsSenderApplication</string>
     <string name="permissions_needed">برای کارکرد خوب برنامه دسترسی هارا به برنامه بدهید</string>
+    <string name="sender">Sender</string>
+    <string name="send">send</string>
+    <string name="message">Message</string>
+    <string name="receiver">Receiver</string>
+    <string name="multiple_contacts">multipleContacts</string>
+    <string name="filter">Filter</string>
 </resources>
